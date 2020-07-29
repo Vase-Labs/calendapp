@@ -1,7 +1,7 @@
 
   <ion-card style="background-color:inherit">
-    <ion-card-content >      
-      <ion-item *ngIf="evento.causa != [] && evento.sucursal != ''">
+    <ion-card-content >
+      <ion-item >
         <ion-label>TIPO</ion-label>
         <ion-select cancelText="Cancelar" okText="Aceptar!" [(ngModel)]="evento.tipo" (ionChange)="cambiarTipo()">
           <ion-select-option value="Audiencia" >Audiencia</ion-select-option>
