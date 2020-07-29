@@ -3,21 +3,24 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
-import { HomePage } from './home.page';
+import { IonicSelectableModule } from 'ionic-selectable';
+import { CreadorEmbebedPage } from './creador-embebed.page';
+import { NgCalendarModule  } from 'ionic2-calendar';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    IonicSelectableModule,
     RouterModule.forChild([
       {
         path: '',
-        component: HomePage
+        component: CreadorEmbebedPage
       }
-    ])
+    ]),
+    NgCalendarModule
   ],
-  declarations: [HomePage]
+  declarations: [CreadorEmbebedPage]
 })
-export class HomePageModule {}
+export class CreadorEmbebedPageModule {}

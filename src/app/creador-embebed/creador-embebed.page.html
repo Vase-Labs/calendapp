@@ -1,0 +1,154 @@
+
+  <ion-card style="background-color:inherit">
+    <ion-card-content >
+      <ion-item>
+        <ion-label>SUCURSAL</ion-label>
+        <ion-select cancelText="Cancelar" okText="Aceptar!" [(ngModel)]="evento.sucursal">
+          <ion-select-option value="TLC" ><span style="color:black">TALCA</span></ion-select-option>
+          <ion-select-option value="LNR" > <span style="color:black">LINARES</span> </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="evento.causa != [] && evento.sucursal != ''">
+        <ion-label>TIPO</ion-label>
+        <ion-select cancelText="Cancelar" okText="Aceptar!" [(ngModel)]="evento.tipo" (ionChange)="cambiarTipo()">
+          <ion-select-option value="Audiencia" >Audiencia</ion-select-option>
+          <ion-select-option value="Atención" >Atención</ion-select-option>
+          <ion-select-option value="Reunión" >Reunión</ion-select-option>
+          <ion-select-option value="Trámite" >Trámite</ion-select-option>
+          <ion-select-option value="Consulta" >Consulta</ion-select-option>
+          <ion-select-option value="Cobertura" >Cobertura</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="evento.causa != [] && evento.tipo == 'Trámite'">
+        <ion-label>PERSONAL?</ion-label>
+        <ion-checkbox [(ngModel)]="evento.personal"></ion-checkbox>
+      </ion-item>
+      <ion-item *ngIf="evento.causa != [] && evento.tipo == 'Consulta'">
+        <ion-label>REFERIDO</ion-label>
+        <ion-input type="text" placeholder="Nombre del referido" [(ngModel)]="evento.referido" required></ion-input>
+      </ion-item>
+      <ion-item *ngIf="evento.causa != [] && evento.tipo != '' && evento.tipo != 'Consulta' && !evento.personal">
+        <ion-label >CAUSAS</ion-label>
+        <ionic-selectable
+          [(ngModel)]="evento.causa"
+          [items]="causas"
+          itemValueField="_id"
+          itemTextField="rolInterno"
+          [canSearch]="true"
+          [isMultiple]="true"
+          [searchFailText]="'No hay causas que cumpla el parametro.'"
+          closeButtonText="Cerrar"
+          [disabled] = "cargandoCausas"
+          (onChange)="causaChange($event)">
+        </ionic-selectable>
+      </ion-item>
+<!--/// TIPO CONSULTA -->
+      <section *ngIf="evento.causa != [] && evento.tipo == 'Consulta'">
+        <ion-item >
+          <ion-label>MATERIA</ion-label>
+          <ion-input type="text" placeholder="MATERIA" [(ngModel)]="evento.materia" required></ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>TELEFONO</ion-label>
+          <ion-input type="text" placeholder="TELEFONO" [(ngModel)]="evento.telefono" required></ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>CAPTADOR</ion-label>
+          <ion-input type="text" placeholder="CAPTADOR" [(ngModel)]="evento.captador" required></ion-input>
+        </ion-item>
+
+      </section>
+
+      <section *ngIf="evento.causa != [] && evento.tipo == 'Trámite'">
+        <ion-item >
+          <ion-label>LUGAR</ion-label>
+          <ion-input type="text" placeholder="LUGAR" [(ngModel)]="evento.lugar" required></ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>DETALLE</ion-label>
+          <ion-input type="text" placeholder="DETALLE" [(ngModel)]="evento.detalle" required></ion-input>
+        </ion-item>
+
+      </section>
+
+      <section *ngIf="evento.causa != [] && evento.tipo == 'Atención'">
+        <ion-item >
+          <ion-label>Tercero?</ion-label>
+          <ion-checkbox [(ngModel)]="evento.tercero"></ion-checkbox>
+        </ion-item>
+        <ion-item *ngIf="!evento.tercero">
+          <ion-select cancelText="Cancelar" okText="Aceptar!" [(ngModel)]="evento.cliente" (ionChange)="seleccionarCliente()">
+            <ion-select-option value="{{i}}" *ngFor="let cliente of clientes;index as i">{{cliente.Nombre}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <section *ngIf="evento.causa != [] && evento.tercero || evento.cliente ">
+          <ion-item >
+            <ion-label>NOMBRE</ion-label>
+            <ion-input type="text" placeholder="NOMBRE" [disabled]="!evento.tercero" [(ngModel)]="evento.nombreAtencion" required></ion-input>
+          </ion-item>
+          <ion-item >
+            <ion-label>TELEFONO</ion-label>
+            <ion-input type="text" placeholder="TELEFONO" [disabled]="!evento.tercero" [(ngModel)]="evento.telefonoAtencion" required></ion-input>
+          </ion-item>
+        </section>
+
+      </section>
+
+      <section *ngIf="evento.causa != [] && evento.tipo == 'Reunión'">
+        <ion-item >
+          <ion-label>FINALIDAD</ion-label>
+          <ion-input type="text" placeholder="FINALIDAD" [(ngModel)]="evento.finalidad" required></ion-input>
+        </ion-item>
+      </section>
+
+      <section *ngIf="evento.causa != [] && evento.tipo == 'Audiencia'  " >
+        <ion-item >
+          <ion-label>PROCEDIMIENTO</ion-label>
+          <ion-input type="text" placeholder="PROCEDIMIENTO"  [(ngModel)]="evento.procedimientoAudiencia" required></ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>TELEFONO</ion-label>
+          <ion-input type="text" placeholder="TELEFONO"  [(ngModel)]="evento.tribunalAudiencia" required></ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>TIPO</ion-label>
+          <ion-input type="text" placeholder="TIPO"  [(ngModel)]="evento.tipoAudiencia" required></ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>CARATULADO</ion-label>
+          <ion-input type="text" placeholder="CARATULADO"  [(ngModel)]="evento.caratuladoAudiencia"  required></ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>ROL/RIT</ion-label>
+          <ion-input type="text" placeholder="ROL / RIT"  [(ngModel)]="evento.rolAudiencia"  required></ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>RUC</ion-label>
+          <ion-input type="text" placeholder="RUC"  [(ngModel)]="evento.rucAudiencia" required></ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>HORA</ion-label>
+          <ion-input type="text" placeholder="HORA"  [(ngModel)]="evento.horaAudiencia"  required></ion-input>
+        </ion-item>
+        <ion-item >
+          <ion-label>SALA</ion-label>
+          <ion-input type="text" placeholder="SALA"  [(ngModel)]="evento.salaAudiencia"  required></ion-input>
+        </ion-item>
+      </section>
+      <ion-item>
+        <ion-label>Inicia</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY HH:mm" pickerFormat="D MM:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Termina</ion-label>
+        <ion-datetime displayFormat="DD/MM/YYYY HH:mm" pickerFormat="D MM:HH:mm" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
+      </ion-item>
+      <ion-item >
+        <ion-label>OBSERVACIÓN</ion-label>
+        <ion-textarea type="text" placeholder="OBSERVACIÓN" [(ngModel)]="evento.observacion"></ion-textarea>
+      </ion-item>
+
+      <ion-button fill="outline" expand="block" (click)="addEvent()" >Confirmar</ion-button>
+
+    </ion-card-content>
+  </ion-card>
