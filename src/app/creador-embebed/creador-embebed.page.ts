@@ -25,7 +25,7 @@ export class CreadorEmbebedPage implements OnInit {
   };
 
   minDate = new Date().toISOString();
-  evento = {sucursal:'',tipo:'',causa:[],personal:false,cliente:0,observacion:''}
+  evento = {sucursal:'Talca',tipo:'',causa:[],personal:false,cliente:0,observacion:''}
   eventSource = [];
   viewTitle;
 

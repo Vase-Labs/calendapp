@@ -1,14 +1,8 @@
 
   <ion-card style="background-color:inherit">
     <ion-card-content >
-      <ion-item>
-        <ion-label>SUCURSAL</ion-label>
-        <ion-select cancelText="Cancelar" okText="Aceptar!" [(ngModel)]="evento.sucursal">
-          <ion-select-option value="TLC" ><span style="color:black">TALCA</span></ion-select-option>
-          <ion-select-option value="LNR" > <span style="color:black">LINARES</span> </ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item *ngIf="evento.causa != [] && evento.sucursal != ''">
+      <ion-item>        
+      <ion-item >
         <ion-label>TIPO</ion-label>
         <ion-select cancelText="Cancelar" okText="Aceptar!" [(ngModel)]="evento.tipo" (ionChange)="cambiarTipo()">
           <ion-select-option value="Audiencia" >Audiencia</ion-select-option>

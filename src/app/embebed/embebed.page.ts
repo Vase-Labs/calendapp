@@ -45,7 +45,7 @@ export class EmbebedPage implements OnInit {
     causasService.listarTodos().subscribe(cs=>{
       self.cargandoCausas = true;
       for(var causa of cs){
-        causa.rolInterno = ( parseInt(causa.index) + 1 ) + ". " + causa.juridisccion + " - " + causa.sucursal;
+        causa.rolInterno = ( parseInt(causa.index) + 1 ) + ". " + causa.juridisccion;
         self.causas.push(causa);
       }
       self.cargandoCausas = false;
