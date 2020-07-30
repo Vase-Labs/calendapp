@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'embebed', pathMatch: 'full' },  
+  { path: '', redirectTo: 'embebed', pathMatch: 'full' },
+  { path: 'calendario.html',redirectTo : 'embebed',pathMatch:'full'},
   {
     path: 'embebed',
     loadChildren: () => import('./embebed/embebed.module').then( m => m.EmbebedPageModule)
