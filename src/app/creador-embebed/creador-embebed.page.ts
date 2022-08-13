@@ -6,6 +6,8 @@ import { CausasService } from '../_service/causas.service';
 import { dbUserService } from '../_service/user.service';
 import { CalendarioServices } from '../_service/calendario.service';
 import { LoadingController } from '@ionic/angular';
+import { AreaService } from '../_service/area.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-creador-embebed',
@@ -40,33 +42,34 @@ export class CreadorEmbebedPage implements OnInit {
   cargandoCausas = false;
   @ViewChild(CalendarComponent, {static: false}) myCal: CalendarComponent;
 
-  constructor(private calendarService:CalendarioServices,private userService : dbUserService ,private causasService : CausasService,private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string) {
-    causasService.listarTodos().subscribe(cs=>{
-      this.cargandoCausas = true;
-      for(var causa of cs){
-        causa.rolInterno = ( parseInt(causa.index) + 1 ) + ". " + causa.juridisccion + " - " + causa.sucursal;
-        this.causas.push(causa);
-      }
-      this.cargandoCausas = false;
-      console.log(this.causas);
-
-    })
-    userService.listar().subscribe(us=>{
-      this.usuarios = us;
-      console.log(us);
-    })
-    calendarService.listar().subscribe(eventos=>{
-      console.log(eventos);
-      for(var evento of eventos){
-        evento.startTime = new Date(evento.startTime)
-        evento.endTime = new Date(evento.endTime)
-        this.eventSource.push(evento);
-      }
-      this.myCal.loadEvents();
-
+  constructor(private areaService : AreaService,
+    private router : ActivatedRoute,private calendarService:CalendarioServices,private userService : dbUserService ,private causasService : CausasService,private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string) {
+    router.queryParams.subscribe(parameter => {
+      console.log(parameter)
+      const {token,enterprise} = parameter;
+      this.getAreas(token,enterprise);
     })
   }
+  getCausas(token,enterprise,area){
+    this.causasService.listarTodos(token,enterprise,area.id).subscribe(cs=>{
+      
+      console.log('causa',cs)
+      for(var i = 0 ; i < cs.length ; i++){
+        const causa = cs[i];
+        causa.rolInterno = " ( "+(i+1)+" ). " + area.code + " - "+causa.name+" "+causa.lastName;
+        this.causas.push(causa);          
+      }      
+    })
 
+  }
+  getAreas(token,enterprise){    
+    this.areaService.listar(token,enterprise).subscribe( (result) =>{      
+      for(const area of result){
+        console.log(area);
+        this.getCausas(token,enterprise,area)
+      }
+    })
+  }
   ngOnInit() {
     this.resetEvent();
   }
@@ -224,17 +227,12 @@ export class CreadorEmbebedPage implements OnInit {
   causaChange(event){
 
     console.log(event);
-    console.log(this.evento.causa);
+    console.log('causa',this.evento.causa);
     this.clientes = [];
     this.evento['cliente'] = 0;
     for(var causa of this.evento.causa ){
-      for(var cliente of causa.cliente){
-        if(cliente.Nombre){
-          this.clientes.push(cliente);
-        }
-      }
-      for(var cliente of causa.clienteParte){
-        if(cliente.Nombre){
+      for(var cliente of causa.data.clients){
+        if(cliente.name){
           this.clientes.push(cliente);
         }
       }

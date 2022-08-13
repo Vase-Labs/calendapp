@@ -17,9 +17,12 @@ export class CausasService {
       headers: new HttpHeaders().set('Content-Type', 'application/json')
     });
   }
-  listarTodos(){
-    return this.http.get<any[]>(`${this.url}/causas/`, {
-      headers: new HttpHeaders().set('Content-Type', 'application/json')
+  listarTodos(token,enterprise,area){
+    return this.http.get<any[]>(`${this.url}/causa/area/${area}`, {
+      headers: new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization' , "Bearer "+token )
+      .set('enterpriseId' , enterprise)   
     });
   }
   listar20(sucursal : any , jurisdiccion : any) {

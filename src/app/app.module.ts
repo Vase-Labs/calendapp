@@ -18,6 +18,7 @@ import { IonicSelectableModule } from 'ionic-selectable';
 import { CausasService } from './_service/causas.service';
 import { dbUserService } from './_service/user.service';
 import { CalendarioServices } from './_service/calendario.service';
+import { AreaService } from './_service/area.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +34,7 @@ import { CalendarioServices } from './_service/calendario.service';
   providers: [
     StatusBar,
     dbUserService,
+    AreaService,
     CalendarioServices,
     CausasService,
     SplashScreen,

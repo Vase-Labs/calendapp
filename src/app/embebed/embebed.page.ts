@@ -6,6 +6,8 @@ import { CausasService } from '../_service/causas.service';
 import { dbUserService } from '../_service/user.service';
 import { CalendarioServices } from '../_service/calendario.service';
 import { LoadingController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { AreaService } from '../_service/area.service';
 
 @Component({
   selector: 'app-embebed',
@@ -40,23 +42,38 @@ export class EmbebedPage implements OnInit {
   cargandoCausas = false;
   @ViewChild(CalendarComponent, {static: false}) myCal: CalendarComponent;
 
-  constructor(private calendarService:CalendarioServices,private userService : dbUserService ,private causasService : CausasService,private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string) {
-    var self = this;
-    causasService.listarTodos().subscribe(cs=>{
-      self.cargandoCausas = true;
-      for(var causa of cs){
-        causa.rolInterno = ( parseInt(causa.index) + 1 ) + ". " + causa.juridisccion;
-        self.causas.push(causa);
+  constructor(
+    private areaService : AreaService,
+    private router : ActivatedRoute,private calendarService:CalendarioServices,private userService : dbUserService ,private causasService : CausasService,private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string) {    
+    console.log('router')
+    router.queryParams.subscribe(parameter => {
+        console.log(parameter)
+        const {token,enterprise} = parameter;
+        this.getAreas(token,enterprise);
+    })   
+  }
+  getCausas(token,enterprise,area){
+    this.causasService.listarTodos(token,enterprise,area.id).subscribe(cs=>{      
+      for(var i = 0 ; i < cs.length; i++){
+        const causa = cs[i];            
+        causa.rolInterno = " ( "+(i+1)+" ). " + area.code;
+        this.causas.push(causa);          
+      }      
+    })
+
+  }
+  getAreas(token,enterprise){    
+    this.areaService.listar(token,enterprise).subscribe( (result) =>{      
+      for(const area of result){
+        console.log(area);
+        this.getCausas(token,enterprise,area)
       }
-      self.cargandoCausas = false;
-      console.log(this.causas);
     })
-    userService.listar().subscribe(us=>{
-      self.usuarios = us;
-      console.log(us);
-    })
+  }
+  ngOnInit() {
+    const self = this;
     setInterval( function(){
-      calendarService.listar().subscribe(eventos=>{
+      self.calendarService.listar().subscribe(eventos=>{
         console.log(eventos);
         self.eventSource = [];
         for(var evento of eventos){
@@ -68,9 +85,6 @@ export class EmbebedPage implements OnInit {
 
       })
     } , 9000 );
-  }
-
-  ngOnInit() {
     this.resetEvent();
   }
 

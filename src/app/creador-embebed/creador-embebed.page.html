@@ -71,7 +71,7 @@
         </ion-item>
         <ion-item *ngIf="!evento.tercero">
           <ion-select cancelText="Cancelar" okText="Aceptar!" [(ngModel)]="evento.cliente" (ionChange)="seleccionarCliente()">
-            <ion-select-option value="{{i}}" *ngFor="let cliente of clientes;index as i">{{cliente.Nombre}}</ion-select-option>
+            <ion-select-option value="{{i}}" *ngFor="let cliente of clientes;index as i">{{cliente.name}}</ion-select-option>
           </ion-select>
         </ion-item>
         <section *ngIf="evento.causa != [] && evento.tercero || evento.cliente ">
