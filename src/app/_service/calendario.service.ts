@@ -12,9 +12,11 @@ export class CalendarioServices {
 
   constructor(private http: HttpClient) { }
 
-  listar() {
+  listar(enterprise) {    
     return this.http.get<any[]>(`${this.url}/calendario/eventos/`, {
-      headers: new HttpHeaders().set('Content-Type', 'application/json')
+      headers: new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('enterpriseId' , enterprise)   
     });
   }
   insertar(evento : any){
