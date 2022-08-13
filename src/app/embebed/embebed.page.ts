@@ -38,6 +38,7 @@ export class EmbebedPage implements OnInit {
   cargandoModal = false;
   clientes = [];
   causas = [];
+  enterprise : String;
   usuarios = [];
   cargandoCausas = false;
   @ViewChild(CalendarComponent, {static: false}) myCal: CalendarComponent;
@@ -47,8 +48,9 @@ export class EmbebedPage implements OnInit {
     private router : ActivatedRoute,private calendarService:CalendarioServices,private userService : dbUserService ,private causasService : CausasService,private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string) {    
     console.log('router')
     router.queryParams.subscribe(parameter => {
-        console.log(parameter)
+        console.log('parameters',parameter)
         const {token,enterprise} = parameter;
+        this.enterprise = enterprise;
         this.getAreas(token,enterprise);
     })   
   }
@@ -73,7 +75,8 @@ export class EmbebedPage implements OnInit {
   ngOnInit() {
     const self = this;
     setInterval( function(){
-      self.calendarService.listar().subscribe(eventos=>{
+      console.log('enterprise',self.enterprise)
+      self.calendarService.listar(self.enterprise).subscribe(eventos=>{
         console.log(eventos);
         self.eventSource = [];
         for(var evento of eventos){
@@ -84,7 +87,7 @@ export class EmbebedPage implements OnInit {
         self.myCal.loadEvents();
 
       })
-    } , 9000 );
+    } , 2000 );
     this.resetEvent();
   }
 

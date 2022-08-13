@@ -38,6 +38,7 @@ export class CreadorEmbebedPage implements OnInit {
   cargandoModal = false;
   clientes = [];
   causas = [];
+  enterprise : String ;
   usuarios = [];
   cargandoCausas = false;
   @ViewChild(CalendarComponent, {static: false}) myCal: CalendarComponent;
@@ -47,6 +48,7 @@ export class CreadorEmbebedPage implements OnInit {
     router.queryParams.subscribe(parameter => {
       console.log(parameter)
       const {token,enterprise} = parameter;
+      this.enterprise = enterprise;
       this.getAreas(token,enterprise);
     })
   }
@@ -145,6 +147,7 @@ export class CreadorEmbebedPage implements OnInit {
       startTime:  new Date(this.event.startTime),
       endTime: new Date(this.event.endTime),
       allDay: this.event.allDay,
+      enterprise : this.enterprise,
       desc: obs
     }
 
