@@ -41,6 +41,7 @@ export class EmbebedPage implements OnInit {
   enterprise : String;
   usuarios = [];
   cargandoCausas = false;
+
   @ViewChild(CalendarComponent, {static: false}) myCal: CalendarComponent;
 
   constructor(
@@ -263,4 +264,9 @@ export class EmbebedPage implements OnInit {
   abrirModal(){
     this.cargandoModal = true;
   }
+  
+  filterEventByDate(date){
+    console.log(date)
+  }
+
   }
