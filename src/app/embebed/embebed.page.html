@@ -1,60 +1,76 @@
-<ion-content>
+<div class='principal-container'>
+  
   <ion-button  expand="block" color="tertiary" (click)="mostrar = true" *ngIf="!mostrar">Agregar</ion-button>
   <ion-button  expand="block" color="danger" (click)="mostrar = false" *ngIf="mostrar">Ocultar</ion-button>
-  <app-creador-embebed *ngIf="mostrar" ></app-creador-embebed>
+ 
+  <app-creador-embebed *ngIf="mostrar" ></app-creador-embebed> 
   <hr>
-  <ion-row>
-
-    <ion-col size="4">
-      <ion-button expand="block" [color]="calendar.mode == 'month' ? 'primary' : 'secondary'" (click)="changeMode('month')">Mes</ion-button>
-    </ion-col>
-    <ion-col size="4">
-      <ion-button expand="block" [color]="calendar.mode == 'week' ? 'primary' : 'secondary'" (click)="changeMode('week')">Semana</ion-button>
-    </ion-col>
-    <ion-col size="4">
-      <ion-button expand="block" [color]="calendar.mode == 'day' ? 'primary' : 'secondary'" (click)="changeMode('day')">Dia</ion-button>
-    </ion-col>
-
-    <ion-col size="6" text-left>
-      <ion-button fill="clear" (click)="back()">
-        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-col>
 
 
-    <ion-col size="6" text-right>
-      <ion-button fill="clear" (click)="next()">
-        <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
 
-  <ng-template  #template let-view="view" let-row="row" let-col="col" >
-    {{view.dates[row*7+col].label}}
-    
-    <div class="task-list-container">
-      
-        <div *ngFor="let task of view.dates[row*7+col].events"class="task-item">
-          <h2 class="task-title">
-            {{task.title}}
-          </h2>
-          <p class="task-time">
-            14:00 - 16:00
-          </p>
-        </div>
-        
-      
-     
+
+
+<div class="header">
+
+  <div class="upper-bar" >
+
+    <div class="title-container" >
+      <h3 class="month">{{viewTitle}} {{viewTitleNumber}}</h3>
     </div>
-    
-</ng-template>
+
+    <div class="navigation-container" >
+      <div class="nav-arrows center">
+        <ion-buttons>
+          <ion-button fill="clear" (click)="back()">
+            <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" (click)="next()">
+            <ion-icon name="arrow-forward" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </div>
+      <div class="view-buttons center">
+          <ion-buttons class="center" style="width:25%;">
+            <ion-button fill="clear" [ngClass]="calendar.mode == 'month' ? 'selected' : 'unselected'" (click)="changeMode('month')">
+              M
+            </ion-button>
+            <ion-button fill="clear" [ngClass]="calendar.mode == 'day' ? 'selected' : 'unselected'"(click)="changeMode('day')">
+              D
+            </ion-button>
+            <ion-button fill="clear" [ngClass]="calendar.mode == 'week' ? 'selected' : 'unselected'"(click)="changeMode('week')">
+              S
+            </ion-button>
+          </ion-buttons>
+      </div>
+  
+    </div>
+
+    <div class="event-buttons-container " >
+      <button  class="button add"  (click)="mostrar = true" >Agregar evento</button>
+    </div>
+  
+  </div>
+
+  <div class="lower-bar" style="height: 50%;">
+    <div class="title-container description-container">
+      <p  class="description" >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+    </div>
+   
+  </div>
+
+</div>
 
 
+
+
+<!--INVOKE CALENDAR-->
+<div class="calendar-container" >
   <calendar
-  [monthviewDisplayEventTemplate]="template"
+  [monthviewDisplayEventTemplate]="monthtemplate"
   [eventSource]="eventSource"
   [calendarMode]="calendar.mode"
   [currentDate]="calendar.currentDate"
+  [formatDayTitle]="EEEEE"
   (onEventSelected)="onEventSelected($event)"
   (onTitleChanged)="onViewTitleChanged($event)"
   (onTimeSelected)="onTimeSelected($event)"
@@ -64,4 +80,32 @@
   startingDayMonth="1"
   startingDayWeek="1">
   </calendar>
-</ion-content>
+</div>
+
+<!--CALENDAR MONTH VIEW TEMPLATE-->
+  <ng-template #monthtemplate let-view="view" let-row="row" let-col="col" >
+
+    <div class="day-container">
+      <p class="day-number">{{view.dates[row*7+col].label}}</p>
+    
+      <div class="task-list-container">
+        
+          <div *ngFor="let task of view.dates[row*7+col].events"class="task-item" (click)="showTask(task)">
+            <h2 class="task-title">
+              {{slicePhrase(task.title)}}
+            </h2>
+            <p class="task-time">
+              14:00 - 16:00
+            </p>
+          </div>
+          
+        
+       
+      </div>
+    </div>
+    
+    
+</ng-template>
+
+
+</div>

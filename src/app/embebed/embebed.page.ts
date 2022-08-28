@@ -30,6 +30,7 @@ export class EmbebedPage implements OnInit {
   evento = {sucursal:'',tipo:'',causa:[],personal:false,cliente:0,observacion:''}
   eventSource = [];
   viewTitle;
+  viewTitleNumber;
 
   calendar = {
     mode: 'month',
@@ -207,7 +208,8 @@ export class EmbebedPage implements OnInit {
   // Selected date reange and hence title changed
   onViewTitleChanged(title) {
     var palabras = title.split(" ");
-
+    console.log(title)
+    this.viewTitleNumber  = this.replaceMonth(palabras[1]);
     this.viewTitle = this.replaceMonth(palabras[0]);
   }
 
@@ -265,8 +267,8 @@ export class EmbebedPage implements OnInit {
     this.cargandoModal = true;
   }
   
-  filterEventByDate(date){
-    console.log(date)
+  slicePhrase(phrase:string){
+    return phrase.slice(0,8)
   }
 
   }
