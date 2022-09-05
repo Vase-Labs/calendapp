@@ -1,0 +1,225 @@
+@import "../../global.scss";
+
+.calendar-container{
+    width: 100%;
+    height: 100vh;
+}
+
+.principal-container{
+    overflow-y: scroll;
+}
+
+.header{
+    padding: 20px;
+}
+
+.upper-bar{
+    display: flex;
+}
+
+.title-container{
+    width: 20%;
+}
+
+.month{
+    margin: 0;
+    padding: 0;
+    font-size: 40px;
+}
+
+//NAVIGATION CONTAINER
+.navigation-container{
+    display:flex;
+    width: 35%;
+}
+
+.nav-arrows{
+    width: 30%;
+}
+
+.view-buttons{
+    width: 70%;
+}
+
+.center{
+    display: flex;
+    align-content: center;
+}
+
+/*EVENT BUTTONS*/
+.event-buttons-container{
+    width: 45%;
+    display: flex;
+    justify-content: end;
+}
+
+.description-container{
+    width: 30%;
+}
+.navigation
+.description{
+    margin: 0;
+    width: 100%;
+}
+
+/*BUTTONS*/
+
+.button{
+    width: 150px;
+    height: 50px;
+}
+
+.add{
+    cursor: pointer;
+    transition: ease-out .7s;
+    transform-style: preserve-3d;
+    transition: .5s;
+  
+    border-radius: 0px 0px 0px 0px;
+    -moz-border-radius: 0px 0px 0px 0px;
+    -webkit-border-radius: 0px 0px 0px 0px;
+    border: 2px dashed $primary-color;
+
+   
+}
+
+.add:hover{
+    background-color: $primary-color;
+    color: #FFFFFF;
+   transition: .5s;
+   -webkit-box-shadow: 10px 10px 15px -5px rgba(0,0,0,0.4);
+   -moz-box-shadow: 10px 10px 15px -5px rgba(0,0,0,0.4);
+   box-shadow: 10px 10px 15px -5px rgba(0,0,0,0.4);
+}
+
+
+/*MONTH CALENDAR ITEM*/
+
+.day-container{
+    overflow: hidden;
+
+}
+
+.task-item{
+    height: 40px;
+    max-height: 50px;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.task-item{
+
+    color: $black !important;
+    background-color: rgb(255, 255, 255);
+    border-left: 2.5px solid $black;
+    margin-top: 0.5rem;
+
+}
+.day-number{
+    text-align: start;
+    margin-left: 0.5%;
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 0;
+    padding-top: 0.5rem;
+}
+
+.task-title{
+    font-size: 15px;
+    margin-top: 2.5px;
+    margin-bottom: 0;
+    margin-left: 5px;
+    text-align: start;
+}
+.task-time{
+    font-size: 14px;
+    color: rgb(170, 168, 168);
+    margin-top: 2.5px;
+    margin-bottom: 0;
+    margin-left: 5px;
+    text-align: start;   
+}
+
+.regular-text{
+    font-size: 12.5px;  
+    color: $black;
+}
+
+.regular-text:hover{
+    transition: ease-out .7s;
+    transform-style: preserve-3d;
+    transition: .5s;
+    text-shadow: 1px 1px 1px $black
+}
+/*UTILS*/
+
+.selected{
+    border-bottom: 2px solid $primary-color ;
+}
+.unselected{
+    border-bottom: none;
+}
+
+.border-green{
+    border-left: 2.5px solid green;
+}
+.border-red{
+    border-left: 2.5px solid red;
+}
+.border-orange{
+    border-left: 2.5px solid orange;
+}
+.border-blue{
+    border-left: 2.5px solid blue;
+}
+.border-yellow{
+    border-left: 2.5px solid yellow;
+}
+
+
+
+/***********************/
+/***********************/
+/**CALENDAR MONTH VIEW**/
+/***********************/
+/***********************/
+
+
+/*RESPONSIVE*/
+
+
+
+@media (max-width: 900px) {
+    .upper-bar{
+        display: block;
+    }
+    .title-container{
+        width: 100%;
+    }
+    .navigation-container{
+        width: 100%;
+    }
+    .view-buttons{
+        padding-left: 1rem;
+    }
+    .event-buttons-container{
+        padding-top:1rem;
+        width: 100%;
+        justify-content: start;
+    }
+    .day-number{
+        font-size: 0.8rem;
+        
+    }
+    .task-item{
+      
+        max-height: 30px;
+    }
+    .task-title{
+        font-size: 10px; 
+    }
+
+}
+  
