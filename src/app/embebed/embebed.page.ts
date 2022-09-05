@@ -1,6 +1,6 @@
 import { CalendarComponent } from 'ionic2-calendar/calendar';
 import { Component, ViewChild, OnInit, Inject, LOCALE_ID } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { CausasService } from '../_service/causas.service';
 import { dbUserService } from '../_service/user.service';
@@ -8,6 +8,7 @@ import { CalendarioServices } from '../_service/calendario.service';
 import { LoadingController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AreaService } from '../_service/area.service';
+import { CreadorEmbebedPage } from '../creador-embebed/creador-embebed.page';
 
 @Component({
   selector: 'app-embebed',
@@ -47,14 +48,20 @@ export class EmbebedPage implements OnInit {
 
   constructor(
     private areaService : AreaService,
-    private router : ActivatedRoute,private calendarService:CalendarioServices,private userService : dbUserService ,private causasService : CausasService,private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string) {    
-    console.log('router')
+    private router : ActivatedRoute,
+    private calendarService:CalendarioServices,
+    private userService : dbUserService ,
+    private causasService : CausasService,
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController,
+    @Inject(LOCALE_ID) private locale: string) {    
     router.queryParams.subscribe(parameter => {
         console.log('parameters',parameter)
         const {token,enterprise} = parameter;
         this.enterprise = enterprise;
         this.getAreas(token,enterprise);
-    })   
+    })  
+
   }
   getCausas(token,enterprise,area){
     this.causasService.listarTodos(token,enterprise,area.id).subscribe(cs=>{      
@@ -215,6 +222,7 @@ export class EmbebedPage implements OnInit {
 
   // Calendar event was clicked
   async onEventSelected(event) {
+     console.log(event)
     // Use Angular date pipe for conversion
     let start = formatDate(event.startTime, 'medium', this.locale);
     let end = formatDate(event.endTime, 'medium', this.locale);
@@ -269,6 +277,17 @@ export class EmbebedPage implements OnInit {
   
   slicePhrase(phrase:string){
     return phrase.slice(0,8)
+  }
+
+  async presentModal() {
+    const modal = await this.modalCtrl.create({
+      component: CreadorEmbebedPage,
+    });
+    return await modal.present();
+  }
+
+  openEventModal(modalArray){
+    console.log("modal array",modalArray)
   }
 
   }

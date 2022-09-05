@@ -67,8 +67,6 @@
 .button{
     width: 150px;
     height: 50px;
-   
-
 }
 
 .add{
@@ -103,22 +101,19 @@
 }
 
 .task-item{
-    height: 50px;
+    height: 40px;
     max-height: 50px;
     overflow-y: hidden;
     text-overflow: ellipsis;
-
-
-
 }
 
 
 .task-item{
 
-    color: black !important;
+    color: $black !important;
     background-color: rgb(255, 255, 255);
-    border-left: 2px solid green;
-    margin-bottom: 0.5rem;
+    border-left: 2.5px solid $black;
+    margin-top: 0.5rem;
 
 }
 .day-number{
@@ -129,22 +124,35 @@
     margin-bottom: 0;
     margin-right: 0;
     padding-top: 0.5rem;
-    
-
 }
 
 .task-title{
+    font-size: 15px;
+    margin-top: 2.5px;
+    margin-bottom: 0;
+    margin-left: 5px;
     text-align: start;
-    font-size: 18px;
-    margin: 0;
 }
 .task-time{
-    font-size: 15px;
-    text-align: start;
-    margin: 0%;
+    font-size: 14px;
+    color: rgb(170, 168, 168);
+    margin-top: 2.5px;
+    margin-bottom: 0;
+    margin-left: 5px;
+    text-align: start;   
 }
 
+.regular-text{
+    font-size: 12.5px;  
+    color: $black;
+}
 
+.regular-text:hover{
+    transition: ease-out .7s;
+    transform-style: preserve-3d;
+    transition: .5s;
+    text-shadow: 1px 1px 1px $black
+}
 /*UTILS*/
 
 .selected{
@@ -153,6 +161,23 @@
 .unselected{
     border-bottom: none;
 }
+
+.border-green{
+    border-left: 2.5px solid green;
+}
+.border-red{
+    border-left: 2.5px solid red;
+}
+.border-orange{
+    border-left: 2.5px solid orange;
+}
+.border-blue{
+    border-left: 2.5px solid blue;
+}
+.border-yellow{
+    border-left: 2.5px solid yellow;
+}
+
 
 
 /***********************/
@@ -170,8 +195,6 @@
     .upper-bar{
         display: block;
     }
-
-
     .title-container{
         width: 100%;
     }
@@ -186,13 +209,10 @@
         width: 100%;
         justify-content: start;
     }
-
     .day-number{
         font-size: 0.8rem;
         
     }
-
-
     .task-item{
       
         max-height: 30px;
@@ -200,7 +220,6 @@
     .task-title{
         font-size: 10px; 
     }
-      
-    
-  }
+
+}
   

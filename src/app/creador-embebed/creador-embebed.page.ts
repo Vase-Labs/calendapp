@@ -1,6 +1,6 @@
 import { CalendarComponent } from 'ionic2-calendar/calendar';
 import { Component, ViewChild, OnInit, Inject, LOCALE_ID } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { CausasService } from '../_service/causas.service';
 import { dbUserService } from '../_service/user.service';
@@ -8,6 +8,7 @@ import { CalendarioServices } from '../_service/calendario.service';
 import { LoadingController } from '@ionic/angular';
 import { AreaService } from '../_service/area.service';
 import { ActivatedRoute } from '@angular/router';
+import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-creador-embebed',
@@ -35,7 +36,7 @@ export class CreadorEmbebedPage implements OnInit {
     mode: 'month',
     currentDate: new Date(),
   };
-  cargandoModal = false;
+
   clientes = [];
   causas = [];
   enterprise : String ;
@@ -44,13 +45,20 @@ export class CreadorEmbebedPage implements OnInit {
   @ViewChild(CalendarComponent, {static: false}) myCal: CalendarComponent;
 
   constructor(private areaService : AreaService,
-    private router : ActivatedRoute,private calendarService:CalendarioServices,private userService : dbUserService ,private causasService : CausasService,private alertCtrl: AlertController, @Inject(LOCALE_ID) private locale: string) {
+    private router : ActivatedRoute,
+    private calendarService:CalendarioServices,
+    private causasService : CausasService,
+    private modalCtrl: ModalController,
+    @Inject(LOCALE_ID) private locale: string) {
     router.queryParams.subscribe(parameter => {
       console.log(parameter)
       const {token,enterprise} = parameter;
       this.enterprise = enterprise;
       this.getAreas(token,enterprise);
     })
+  }
+  ngOnInit() {
+    this.resetEvent();
   }
   getCausas(token,enterprise,area){
     this.causasService.listarTodos(token,enterprise,area.id).subscribe(cs=>{
@@ -72,9 +80,7 @@ export class CreadorEmbebedPage implements OnInit {
       }
     })
   }
-  ngOnInit() {
-    this.resetEvent();
-  }
+  
 
 
   resetEvent() {
@@ -149,6 +155,7 @@ export class CreadorEmbebedPage implements OnInit {
       allDay: this.event.allDay,
       enterprise : this.enterprise,
       desc: obs
+
     }
 
     if (eventCopy.allDay) {
@@ -166,63 +173,11 @@ export class CreadorEmbebedPage implements OnInit {
     this.myCal.loadEvents();
     this.resetEvent();
   }
+  
   cambiarTipo(){
     this.evento.personal = false;
   }
-  // Change current month/week/day
-  next() {
-    var swiper = document.querySelector('.swiper-container')['swiper'];
-    swiper.slideNext();
-  }
 
-  back() {
-    var swiper = document.querySelector('.swiper-container')['swiper'];
-    swiper.slidePrev();
-  }
-
-  // Change between month/week/day
-  changeMode(mode) {
-    this.calendar.mode = mode;
-  }
-
-  // Focus today
-  today() {
-    this.calendar.currentDate = new Date();
-  }
-
-  // Selected date reange and hence title changed
-  onViewTitleChanged(title) {
-    var palabras = title.split(" ");
-
-    this.viewTitle = this.replaceMonth(palabras[0]);
-  }
-
-  // Calendar event was clicked
-  async onEventSelected(event) {
-    // Use Angular date pipe for conversion
-    let start = formatDate(event.startTime, 'medium', this.locale);
-    let end = formatDate(event.endTime, 'medium', this.locale);
-
-    const alert = await this.alertCtrl.create({
-      header: event.title,
-      subHeader: 'Desde: ' + start + ' Hasta: ' + end,
-      message: event.desc,
-      buttons: ['OK']
-    });
-    alert.present();
-  }
-
-  // Time slot was clicked
-  onTimeSelected(ev) {
-    let selected = new Date(ev.selectedTime);
-    this.event.startTime = selected.toISOString();
-    selected.setHours(selected.getHours() + 1);
-    this.event.endTime = (selected.toISOString());
-  }
-  // replace english name with spanish name of month
-  replaceMonth(month){
-    return this.months[month] || month;
-  }
   seleccionarCliente(){
     this.evento['nombreAtencion'] = this.clientes[this.evento.cliente].Nombre;
     this.evento['telefonoAtencion'] = this.clientes[this.evento.cliente].Telefono;
@@ -240,9 +195,11 @@ export class CreadorEmbebedPage implements OnInit {
         }
       }
     }
-    this.cargandoModal = false;
+   
   }
-  abrirModal(){
-    this.cargandoModal = true;
+
+
+  closeModal(){
+    this.modalCtrl.dismiss();
   }
 }
