@@ -154,6 +154,7 @@ export class CreadorEmbebedPage implements OnInit {
       endTime: new Date(this.event.endTime),
       allDay: this.event.allDay,
       enterprise : this.enterprise,
+      eventType : this.evento.tipo,
       desc: obs
 
     }
@@ -166,12 +167,14 @@ export class CreadorEmbebedPage implements OnInit {
       eventCopy.endTime = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate() + 1));
     }
     this.calendarService.insertar(eventCopy).subscribe(result=>{
+      this.closeModal();
       console.log(result);
     })
     this.evento = {sucursal:'',tipo:'',causa:[],personal:false,cliente:0,observacion:''};
     this.eventSource.push(eventCopy);
     this.myCal.loadEvents();
     this.resetEvent();
+    
   }
   
   cambiarTipo(){
