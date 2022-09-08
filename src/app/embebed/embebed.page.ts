@@ -96,7 +96,7 @@ export class EmbebedPage implements OnInit {
         self.myCal.loadEvents();
 
       })
-    } , 2000 );
+    } , 5000 );
     this.resetEvent();
   }
 
@@ -279,15 +279,15 @@ export class EmbebedPage implements OnInit {
     return phrase.slice(0,8)
   }
 
-  async presentModal() {
+  async presentModal(type,data?) {
     const modal = await this.modalCtrl.create({
       component: CreadorEmbebedPage,
+      componentProps:{
+        type: type,
+        data: data,
+      }
     });
     return await modal.present();
-  }
-
-  openEventModal(modalArray){
-    console.log("modal array",modalArray)
   }
 
   }

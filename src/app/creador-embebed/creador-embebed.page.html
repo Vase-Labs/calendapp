@@ -1,5 +1,5 @@
 <ion-content>
-  <div class="main-container" >
+  <div class="main-container" *ngIf="modalType==='create'" >
     <ion-header>
       <ion-toolbar>
         <ion-title>Agregar evento</ion-title>
@@ -10,7 +10,7 @@
       </ion-toolbar>
     </ion-header>
 
-    <div class="content-container">
+    <div class="content-container" >
 
         <ion-item >
           <ion-label>Tipo de evento</ion-label>
@@ -80,69 +80,71 @@
         </section>
 
         <section *ngIf="evento.causa != [] && evento.tipo == 'Atención'">
-          <ion-item >
-            <ion-label>Tercero?</ion-label>
-            <ion-checkbox [(ngModel)]="evento.tercero"></ion-checkbox>
-          </ion-item>
-          <ion-item *ngIf="!evento.tercero">
-            <ion-select cancelText="Cancelar" okText="Aceptar!" [(ngModel)]="evento.cliente" (ionChange)="seleccionarCliente()">
-              <ion-select-option value="{{i}}" *ngFor="let cliente of clientes;index as i">{{cliente.name}}</ion-select-option>
-            </ion-select>
-          </ion-item>
-          <section *ngIf="evento.causa != [] && evento.tercero || evento.cliente ">
             <ion-item >
-              <ion-label>Nombre</ion-label>
-              <ion-input type="text" placeholder="Ingrese un nombre" [disabled]="!evento.tercero" [(ngModel)]="evento.nombreAtencion" required></ion-input>
+              <ion-label>Tercero?</ion-label>
+              <ion-checkbox [(ngModel)]="evento.tercero"></ion-checkbox>
             </ion-item>
-            <ion-item >
-              <ion-label>Teléfono</ion-label>
-              <ion-input type="text" placeholder="Ingrese un teléfono" [disabled]="!evento.tercero" [(ngModel)]="evento.telefonoAtencion" required></ion-input>
+            <ion-item *ngIf="!evento.tercero">
+              <ion-select cancelText="Cancelar" okText="Aceptar!" [(ngModel)]="evento.cliente" (ionChange)="seleccionarCliente()">
+                <ion-select-option value="{{i}}" *ngFor="let cliente of clientes;index as i">{{cliente.name}}</ion-select-option>
+              </ion-select>
             </ion-item>
-          </section>
+
+            <section *ngIf="evento.causa != [] && evento.tercero || evento.cliente ">
+                <ion-item >
+                  <ion-label>Nombre</ion-label>
+                  <ion-input type="text" placeholder="Ingrese un nombre" [disabled]="!evento.tercero" [(ngModel)]="evento.nombreAtencion" required></ion-input>
+                </ion-item>
+                <ion-item >
+                  <ion-label>Teléfono</ion-label>
+                  <ion-input type="text" placeholder="Ingrese un teléfono" [disabled]="!evento.tercero" [(ngModel)]="evento.telefonoAtencion" required></ion-input>
+                </ion-item>
+            </section>
 
         </section>
 
         <section *ngIf="evento.causa != [] && evento.tipo == 'Reunión'">
-          <ion-item >
-            <ion-label>Finalidad</ion-label>
-            <ion-input type="text" placeholder="FINALIDAD" [(ngModel)]="evento.finalidad" required></ion-input>
-          </ion-item>
+            <ion-item >
+              <ion-label>Finalidad</ion-label>
+              <ion-input type="text" placeholder="FINALIDAD" [(ngModel)]="evento.finalidad" required></ion-input>
+            </ion-item>
         </section>
 
         <section *ngIf="evento.causa != [] && evento.tipo == 'Audiencia'  " >
-          <ion-item >
-            <ion-label>Procedimiento</ion-label>
-            <ion-input type="text" placeholder="Ingrese un procedimiento"  [(ngModel)]="evento.procedimientoAudiencia" required></ion-input>
-          </ion-item>
-          <ion-item >
-            <ion-label>Teléfono</ion-label>
-            <ion-input type="text" placeholder="Ingrese un teléfono"  [(ngModel)]="evento.tribunalAudiencia" required></ion-input>
-          </ion-item>
-          <ion-item >
-            <ion-label>Tipo</ion-label>
-            <ion-input type="text" placeholder="Ingrese el tipo"  [(ngModel)]="evento.tipoAudiencia" required></ion-input>
-          </ion-item>
-          <ion-item >
-            <ion-label>Caratulado</ion-label>
-            <ion-input type="text" placeholder="Ingrese caratulado"  [(ngModel)]="evento.caratuladoAudiencia"  required></ion-input>
-          </ion-item>
-          <ion-item >
-            <ion-label>Rol/RIT</ion-label>
-            <ion-input type="text" placeholder="Ingrese ROL / RIT"  [(ngModel)]="evento.rolAudiencia"  required></ion-input>
-          </ion-item>
-          <ion-item >
-            <ion-label>RUC</ion-label>
-            <ion-input type="text" placeholder="Ingrese un RUC"  [(ngModel)]="evento.rucAudiencia" required></ion-input>
-          </ion-item>
-          <ion-item >
-            <ion-label>Hora</ion-label>
-            <ion-input type="text" placeholder="Ingrese la Hora"  [(ngModel)]="evento.horaAudiencia"  required></ion-input>
-          </ion-item>
-          <ion-item >
-            <ion-label>Sala</ion-label>
-            <ion-input type="text" placeholder="Ingrese Sala"  [(ngModel)]="evento.salaAudiencia"  required></ion-input>
-          </ion-item>
+            <ion-item >
+              <ion-label>Procedimiento</ion-label>
+              <ion-input type="text" placeholder="Ingrese un procedimiento"  [(ngModel)]="evento.procedimientoAudiencia" required></ion-input>
+            </ion-item>
+            <ion-item >
+              <ion-label>Teléfono</ion-label>
+              <ion-input type="text" placeholder="Ingrese un teléfono"  [(ngModel)]="evento.tribunalAudiencia" required></ion-input>
+            </ion-item>
+            <ion-item >
+              <ion-label>Tipo</ion-label>
+              <ion-input type="text" placeholder="Ingrese el tipo"  [(ngModel)]="evento.tipoAudiencia" required></ion-input>
+            </ion-item>
+            <ion-item >
+              <ion-label>Caratulado</ion-label>
+              <ion-input type="text" placeholder="Ingrese caratulado"  [(ngModel)]="evento.caratuladoAudiencia"  required></ion-input>
+            </ion-item>
+            <ion-item >
+              <ion-label>Rol/RIT</ion-label>
+              <ion-input type="text" placeholder="Ingrese ROL / RIT"  [(ngModel)]="evento.rolAudiencia"  required></ion-input>
+            </ion-item>
+            <ion-item >
+              <ion-label>RUC</ion-label>
+              <ion-input type="text" placeholder="Ingrese un RUC"  [(ngModel)]="evento.rucAudiencia" required></ion-input>
+            </ion-item>
+            <ion-item >
+              <ion-label>Hora</ion-label>
+              <ion-input type="text" placeholder="Ingrese la Hora"  [(ngModel)]="evento.horaAudiencia"  required></ion-input>
+            </ion-item>
+            <ion-item >
+              <ion-label>Sala</ion-label>
+              <ion-input type="text" placeholder="Ingrese Sala"  [(ngModel)]="evento.salaAudiencia"  required></ion-input>
+            </ion-item>
         </section>
+
         <ion-item>
           <ion-label>Fecha de inicio</ion-label>
           <ion-datetime displayFormat="DD/MM/YYYY HH:mm" pickerFormat="D MM:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
@@ -163,5 +165,182 @@
 
     </div>
 
+   
   </div>
+  
+  <div class="main-container"  *ngIf="modalType==='showData'">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title></ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeModal()" [strong]="true">
+            <ion-icon name="close-outline"></ion-icon>Cerrar</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <div>
+      <div class="event-list" *ngFor="let event of modalData">
+        
+        <div class="event-container" *ngIf="event.eventData.tipo==='Audiencia'">
+          <h4 class="event-container-title">Audiencia</h4>
+          <div class="event-data-grid" >
+            <ion-item lines="none">
+              <ion-label position="stacked">Fecha inicio</ion-label>
+              <ion-input disabled="true">{{ event.startTime | date }}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Fecha termino</ion-label>
+              <ion-input disabled="true">{{ event.endTime | date }}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label  position="stacked">Procedimiento</ion-label>
+              <ion-input disabled="true">{{ event.eventData.procedimientoAudiencia}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Tribunal</ion-label>
+              <ion-input disabled="true">{{ event.eventData.tribunalAudiencia}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Tipo de audencia</ion-label>
+              <ion-input disabled="true">{{ event.eventData.tipoAudiencia}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Caratulado</ion-label>
+              <ion-input disabled="true">{{ event.eventData.caratuladoAudiencia}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Rol/RIT</ion-label>
+              <ion-input disabled="true">{{ event.eventData.rolAudiencia}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">RUC</ion-label>
+              <ion-input disabled="true">{{ event.eventData.rucAudiencia}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Hora de audencia</ion-label>
+              <ion-input disabled="true">{{ event.eventData.horaAudiencia}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Sala </ion-label>
+              <ion-input disabled="true">{{ event.eventData.salaAudiencia}}</ion-input>
+            </ion-item>
+       
+          </div>
+        </div>
+        
+        <div class="event-container" *ngIf="event.eventData.tipo==='Reunión'" >
+          <h4 class="event-container-title">Reunión</h4>
+          <div class="event-data-grid">
+            <ion-item lines="none">
+              <ion-label position="stacked">Fecha inicio</ion-label>
+              <ion-input disabled="true">{{ event.startTime | date }}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Fecha termino</ion-label>
+              <ion-input disabled="true">{{ event.endTime | date }}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Finalidad</ion-label>
+              <ion-input disabled="true">{{ event.eventData.finalidad}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Observación</ion-label>
+              <ion-input disabled="true">{{ event.eventData.observacion}}</ion-input>
+            </ion-item>
+          </div>
+        </div>
+
+        <div class="event-container" *ngIf="event.eventData.tipo==='Trámite'" >
+          <h4 class="event-container-title">Trámite</h4>
+          <div class="event-data-grid">
+            <ion-item lines="none">
+              <ion-label position="stacked">Fecha inicio</ion-label>
+              <ion-input disabled="true">{{ event.startTime | date }}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Fecha termino</ion-label>
+              <ion-input disabled="true">{{ event.endTime | date }}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Lugar</ion-label>
+              <ion-input disabled="true">{{ event.eventData.lugar}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Detalle</ion-label>
+              <ion-input disabled="true">{{ event.eventData.detale}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Observación</ion-label>
+              <ion-input disabled="true">{{ event.eventData.observacion}}</ion-input>
+            </ion-item>
+          </div>
+        </div>
+
+        <div class="event-container" *ngIf="event.eventData.tipo==='Atención'" >
+          <h4 class="event-container-title">Atención</h4>
+          <div class="event-data-grid">
+            <ion-item lines="none">
+              <ion-label position="stacked">Fecha inicio</ion-label>
+              <ion-input disabled="true">{{ event.startTime | date }}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Fecha termino</ion-label>
+              <ion-input disabled="true">{{ event.endTime | date }}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Nombre Atención</ion-label>
+              <ion-input disabled="true">{{ event.eventData.nombreAtencion}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Telefóno</ion-label>
+              <ion-input disabled="true">{{ event.eventData.telefonoAtencion}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Observación</ion-label>
+              <ion-input disabled="true">{{ event.eventData.observacion}}</ion-input>
+            </ion-item>
+          </div>
+        </div>
+
+        <div class="event-container" *ngIf="event.eventData.tipo==='Consulta'" >
+          <h4 class="event-container-title">Consulta</h4>
+          <div class="event-data-grid">
+            <ion-item lines="none">
+              <ion-label position="stacked">Fecha inicio</ion-label>
+              <ion-input disabled="true">{{ event.startTime | date }}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Fecha termino</ion-label>
+              <ion-input disabled="true">{{ event.endTime | date }}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Materia</ion-label>
+              <ion-input disabled="true">{{ event.eventData.materia}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Telefóno</ion-label>
+              <ion-input disabled="true">{{ event.eventData.telefono}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Referido</ion-label>
+              <ion-input disabled="true">{{ event.eventData.referido}}</ion-input>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label position="stacked">Captador</ion-label>
+              <ion-input disabled="true">{{ event.eventData.captador}}</ion-input>
+            </ion-item>
+          
+          </div>
+        </div>
+        
+
+    
+      </div>
+    </div>
+  
+  </div>
+
+
+  
 </ion-content>

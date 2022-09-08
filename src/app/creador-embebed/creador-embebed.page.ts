@@ -42,6 +42,10 @@ export class CreadorEmbebedPage implements OnInit {
   enterprise : String ;
   usuarios = [];
   cargandoCausas = false;
+
+
+  modalType:string;
+  modalData;
   @ViewChild(CalendarComponent, {static: false}) myCal: CalendarComponent;
 
   constructor(private areaService : AreaService,
@@ -49,6 +53,7 @@ export class CreadorEmbebedPage implements OnInit {
     private calendarService:CalendarioServices,
     private causasService : CausasService,
     private modalCtrl: ModalController,
+    private navParams : NavParams,
     @Inject(LOCALE_ID) private locale: string) {
     router.queryParams.subscribe(parameter => {
       console.log(parameter)
@@ -58,6 +63,9 @@ export class CreadorEmbebedPage implements OnInit {
     })
   }
   ngOnInit() {
+    this.modalType= this.navParams.get('type');
+    this.modalData= this.navParams.get('data');
+    console.log(this.modalData)
     this.resetEvent();
   }
   getCausas(token,enterprise,area){
@@ -97,12 +105,12 @@ export class CreadorEmbebedPage implements OnInit {
   // Create the right event format and reload source
   addEvent() {
     var causas = "";
-    var obs = "";
+    let obs = "";
     if(this.evento.causa.length == 1){
       causas += this.evento.causa[0].rolInterno;
     }else{
       causas += "Multiples causas"
-      obs += "<b>Causas:</b><br>";
+      obs += "Causas:";
       for(var causa of this.evento.causa){
         obs += "<b>"+causa.rolInterno+"</b><br>";
       }
@@ -155,6 +163,7 @@ export class CreadorEmbebedPage implements OnInit {
       allDay: this.event.allDay,
       enterprise : this.enterprise,
       eventType : this.evento.tipo,
+      eventData: this.evento,
       desc: obs
 
     }
@@ -205,4 +214,6 @@ export class CreadorEmbebedPage implements OnInit {
   closeModal(){
     this.modalCtrl.dismiss();
   }
+
+
 }
