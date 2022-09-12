@@ -36,7 +36,7 @@
     </div>
 
     <div class="event-buttons-container " >
-      <button  class="button add"  (click)="presentModal()" >Agregar evento</button>
+      <button  class="button add"  (click)="presentModal('create')" >Agregar evento</button>
     </div>
   
   </div>
@@ -91,14 +91,14 @@
             *ngFor="let task of view.dates[row*7+col].events.slice(0,2)" 
           >
             <h2 class="task-title">
-              {{slicePhrase(task.title)}}
+              {{task.eventType}}
             </h2>
             <p class="task-time">
               {{task.startTime | date:'shortTime'}} - {{task.endTime | date:'shortTime'}}
             </p>
           </div>
-          <div class="show-more-container" (click)="openEventModal(view.dates[row*7+col].events)">
-            <p class="regular-text" *ngIf="view.dates[row*7+col].events.length >= 2">Mostrar {{((view.dates[row*7+col].events.length)-2)}} más</p>
+          <div class="show-more-container" (click)="presentModal('showData',view.dates[row*7+col].events)">
+            <p class="regular-text" *ngIf="view.dates[row*7+col].events.length >= 2">{{((view.dates[row*7+col].events.length)-2)}} más</p>
           </div>
         
        

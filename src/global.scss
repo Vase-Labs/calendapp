@@ -26,6 +26,12 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
 
+@font-face {
+    font-family: 'aovel' ;
+    src: url('/assets/fonts/aovel.ttf') format('truetype');
+}
+
+
 
 /*COLORS*/
 $primary-color: #101e49;
