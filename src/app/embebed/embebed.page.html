@@ -87,7 +87,7 @@
                       task.type == 'Trámite' ? 'border-orange' : '',
                       task.type == 'Consulta' ? 'border-yellow' : '',
                       task.type == 'Reunión' ? 'border-blue' : '']" 
-            (click)=onEventSelected(task) 
+            (click)="presentModal('showData',[task])"
             *ngFor="let task of view.dates[row*7+col].events.slice(0,2)" 
           >
             <h2 class="task-title">

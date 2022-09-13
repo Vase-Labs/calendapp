@@ -118,7 +118,7 @@ export class CreadorEmbebedPage implements OnInit {
     }
     var titulo = this.evento.tipo+" - "+causas+" ( PERSONA/S )";
     var desc = this.evento.observacion;
-
+    /*
     switch (this.evento.tipo) {
       case 'Reunión':
         obs += "<b>FINALIDAD:</b> "+this.evento['finalidad'];
@@ -154,8 +154,8 @@ export class CreadorEmbebedPage implements OnInit {
         break;
       default:
         break;
-    }
-    obs += "<br><b>OBS:</b> "+desc;
+    }*/
+    obs += desc;
     let eventCopy = {
       title: titulo,
       startTime:  new Date(this.event.startTime),
