@@ -279,7 +279,7 @@ export class EmbebedPage implements OnInit {
     return phrase.slice(0,8)
   }
 
-  async presentModal(type,data?) {
+  async presentModal(type:string,data?:any[]) {
     const modal = await this.modalCtrl.create({
       component: CreadorEmbebedPage,
       componentProps:{
