@@ -56,7 +56,7 @@ export class EmbebedPage implements OnInit {
     private modalCtrl: ModalController,
     @Inject(LOCALE_ID) private locale: string) {    
     router.queryParams.subscribe(parameter => {
-        console.log('parameters',parameter)
+        
         const {token,enterprise} = parameter;
         this.enterprise = enterprise;
         this.getAreas(token,enterprise);
@@ -76,7 +76,7 @@ export class EmbebedPage implements OnInit {
   getAreas(token,enterprise){    
     this.areaService.listar(token,enterprise).subscribe( (result) =>{      
       for(const area of result){
-        console.log(area);
+        //console.log(area);
         this.getCausas(token,enterprise,area)
       }
     })
@@ -84,9 +84,8 @@ export class EmbebedPage implements OnInit {
   ngOnInit() {
     const self = this;
     setInterval( function(){
-      console.log('enterprise',self.enterprise)
       self.calendarService.listar(self.enterprise).subscribe(eventos=>{
-        console.log(eventos);
+        
         self.eventSource = [];
         for(var evento of eventos){
           evento.startTime = new Date(evento.startTime)
@@ -182,7 +181,7 @@ export class EmbebedPage implements OnInit {
       eventCopy.endTime = new Date(Date.UTC(end.getUTCFullYear(), end.getUTCMonth(), end.getUTCDate() + 1));
     }
     this.calendarService.insertar(eventCopy).subscribe(result=>{
-      console.log(result);
+      //console.log(result);
     })
     this.eventSource.push(eventCopy);
     this.myCal.loadEvents();
@@ -215,14 +214,14 @@ export class EmbebedPage implements OnInit {
   // Selected date reange and hence title changed
   onViewTitleChanged(title) {
     var palabras = title.split(" ");
-    console.log(title)
+    //console.log(title)
     this.viewTitleNumber  = this.replaceMonth(palabras[1]);
     this.viewTitle = this.replaceMonth(palabras[0]);
   }
 
   // Calendar event was clicked
   async onEventSelected(event) {
-     console.log(event)
+     //console.log(event)
     // Use Angular date pipe for conversion
     let start = formatDate(event.startTime, 'medium', this.locale);
     let end = formatDate(event.endTime, 'medium', this.locale);
@@ -253,8 +252,8 @@ export class EmbebedPage implements OnInit {
   }
   causaChange(event){
 
-    console.log(event);
-    console.log(this.evento.causa);
+    //console.log(event);
+    //console.log(this.evento.causa);
     this.clientes = [];
     this.evento['cliente'] = 0;
     for(var causa of this.evento.causa ){
