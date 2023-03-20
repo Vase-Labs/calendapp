@@ -1,4 +1,4 @@
-<div class='principal-container'>
+<div class='principal-container' *ngIf="!firstLoading">
   
 <div class="header">
 
@@ -102,4 +102,8 @@
 </ng-template>
 
 
+</div>
+
+<div class="loading" *ngIf="firstLoading">
+  
 </div>
