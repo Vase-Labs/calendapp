@@ -43,7 +43,6 @@ export class EmbebedPage implements OnInit {
   enterprise : String;
   usuarios = [];
   cargandoCausas = false;
-  firstLoading = false; 
 
   @ViewChild(CalendarComponent, {static: false}) myCal: CalendarComponent;
 
@@ -84,8 +83,6 @@ export class EmbebedPage implements OnInit {
   }
   ngOnInit() {
     const self = this;
-    // cuando se quiera modificar la estética poner esto falso
-    this.firstLoading = true;
     setInterval( function(){
       self.calendarService.listar(self.enterprise).subscribe(eventos=>{
         self.eventSource = [];
@@ -95,9 +92,8 @@ export class EmbebedPage implements OnInit {
           self.eventSource.push(evento);
         }
         self.myCal.loadEvents();
-        this.firstLoading = false;
       }, err=>{
-        this.firstLoading = false;
+        
       })
     } , 5000 );
     this.resetEvent();
