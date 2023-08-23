@@ -147,11 +147,11 @@
 
         <ion-item>
           <ion-label>Fecha de inicio</ion-label>
-          <ion-datetime displayFormat="DD/MM/YYYY HH:mm" pickerFormat="D MM:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
+          <ion-datetime displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD:MM:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
         </ion-item>
         <ion-item>
           <ion-label>Fecha de término</ion-label>
-          <ion-datetime displayFormat="DD/MM/YYYY HH:mm" pickerFormat="D MM:HH:mm" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
+          <ion-datetime displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD MM:HH:mm" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
         </ion-item>
         <ion-item >
           <ion-label>Observación</ion-label>

@@ -25,9 +25,13 @@ export class CreadorEmbebedPage implements OnInit {
     startTime: '',
     endTime: '',
     allDay: false
+
   };
 
-  minDate = new Date().toISOString();
+  tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+  minDate = (new Date(Date.now() - this.tzoffset)).toISOString().slice(0, -1); //date without -GMT. 
+
+
   evento = {sucursal:'Talca',tipo:'',causa:[],personal:false,cliente:0,observacion:''}
   eventSource = [];
   viewTitle;
@@ -63,6 +67,9 @@ export class CreadorEmbebedPage implements OnInit {
     })
   }
   ngOnInit() {
+ 
+    console.log(this.minDate)
+
     this.modalType= this.navParams.get('type');
     this.modalData= this.navParams.get('data');
     console.log(this.modalData)
