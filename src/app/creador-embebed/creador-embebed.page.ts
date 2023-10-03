@@ -43,8 +43,10 @@ export class CreadorEmbebedPage implements OnInit {
 
   clientes = [];
   causas = [];
-  enterprise : String ;
-  usuarios = [];
+  enterprise : string ;
+  token : string;
+  users = [];
+  selectedUsers = [];
   cargandoCausas = false;
 
 
@@ -58,23 +60,30 @@ export class CreadorEmbebedPage implements OnInit {
     private causasService : CausasService,
     private modalCtrl: ModalController,
     private navParams : NavParams,
+    private userService : dbUserService,
     @Inject(LOCALE_ID) private locale: string) {
     router.queryParams.subscribe(parameter => {
       console.log(parameter)
       const {token,enterprise} = parameter;
       this.enterprise = enterprise;
+      this.token = token;
       this.getAreas(token,enterprise);
     })
   }
   ngOnInit() {
  
     console.log(this.minDate)
-
     this.modalType= this.navParams.get('type');
     this.modalData= this.navParams.get('data');
-    console.log(this.modalData)
+    console.log("modalData",this.modalData)
     this.resetEvent();
+    this.setUsers();
   }
+
+  setUsers(){
+    this.users = this.modalData;
+  }
+
   getCausas(token,enterprise,area){
     this.causasService.listarTodos(token,enterprise,area.id).subscribe(cs=>{
       
@@ -95,7 +104,6 @@ export class CreadorEmbebedPage implements OnInit {
       }
     })
   }
-  
 
 
   resetEvent() {
@@ -112,18 +120,12 @@ export class CreadorEmbebedPage implements OnInit {
   // Create the right event format and reload source
   addEvent() {
     var causas = "";
-    let obs = "";
     if(this.evento.causa.length == 1){
       causas += this.evento.causa[0].rolInterno;
     }else{
       causas += "Multiples causas"
-      obs += "Causas:";
-      for(var causa of this.evento.causa){
-        obs += "<b>"+causa.rolInterno+"</b><br>";
-      }
-      obs += "<br>"
     }
-    var titulo = this.evento.tipo+" - "+causas+" ( PERSONA/S )";
+    var titulo = this.evento.tipo;
     var desc = this.evento.observacion;
     /*
     switch (this.evento.tipo) {
@@ -162,7 +164,6 @@ export class CreadorEmbebedPage implements OnInit {
       default:
         break;
     }*/
-    obs += desc;
     let eventCopy = {
       title: titulo,
       startTime:  new Date(this.event.startTime),
@@ -171,8 +172,7 @@ export class CreadorEmbebedPage implements OnInit {
       enterprise : this.enterprise,
       eventType : this.evento.tipo,
       eventData: this.evento,
-      desc: obs
-
+      mailedUsers: this.selectedUsers
     }
 
     if (eventCopy.allDay) {
@@ -184,7 +184,6 @@ export class CreadorEmbebedPage implements OnInit {
     }
     this.calendarService.insertar(eventCopy).subscribe(result=>{
       this.closeModal();
-      console.log(result);
     })
     this.evento = {sucursal:'',tipo:'',causa:[],personal:false,cliente:0,observacion:''};
     this.eventSource.push(eventCopy);
@@ -214,6 +213,10 @@ export class CreadorEmbebedPage implements OnInit {
         }
       }
     }
+   
+  }
+
+  userChange(event){
    
   }
 

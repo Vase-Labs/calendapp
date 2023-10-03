@@ -9,6 +9,7 @@ import { LoadingController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { AreaService } from '../_service/area.service';
 import { CreadorEmbebedPage } from '../creador-embebed/creador-embebed.page';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-embebed',
@@ -40,8 +41,9 @@ export class EmbebedPage implements OnInit {
   cargandoModal = false;
   clientes = [];
   causas = [];
-  enterprise : String;
-  usuarios = [];
+  enterprise : string;
+  token : string;
+  users = [];
   cargandoCausas = false;
 
   @ViewChild(CalendarComponent, {static: false}) myCal: CalendarComponent;
@@ -59,6 +61,7 @@ export class EmbebedPage implements OnInit {
         
         const {token,enterprise} = parameter;
         this.enterprise = enterprise;
+        this.token = token;
         this.getAreas(token,enterprise);
     })  
 
@@ -82,6 +85,7 @@ export class EmbebedPage implements OnInit {
     })
   }
   ngOnInit() {
+    this.getEnterpriseUsers();
     const self = this;
     setInterval( function(){
       self.calendarService.listar(self.enterprise).subscribe(eventos=>{
@@ -276,6 +280,29 @@ export class EmbebedPage implements OnInit {
   
   slicePhrase(phrase:string){
     return phrase.slice(0,8)
+  }
+
+
+
+  getEnterpriseUsers(){
+
+    this.userService.listByEnterprise(this.enterprise,this.token).pipe(
+      map((users: any[]) => users.map(user => {
+        let mappedUser = {
+          id: user.id,
+          enterpriseId: user.enterpriseId,
+          fullName: user.name+' '+ user.firstSurname,
+          name: user.name,
+          firstSurname: user.firstSurname,
+          email : user.email,
+          rol : user.rol,
+          phone : user.phone,
+        }
+        return mappedUser;
+      }))
+    ).subscribe( res => {
+      this.users = res;
+    })
   }
 
   async presentModal(type:string,data?:any[]) {

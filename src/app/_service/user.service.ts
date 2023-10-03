@@ -66,5 +66,14 @@ export class dbUserService {
     });
   }
 
+  listByEnterprise(enterprise : string, token: string) { 
+    return this.http.get<any[]>(`${this.url}/users/listByEnterprise` , {
+      headers: new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('enterpriseId' , enterprise)
+      .set('Authorization' , "Bearer "+token)   
+    });
+  }
+
 
 }
