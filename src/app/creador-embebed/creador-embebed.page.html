@@ -158,6 +158,24 @@
           <ion-textarea type="text" placeholder="Observación" [(ngModel)]="evento.observacion"></ion-textarea>
         </ion-item>
 
+        <h4 class="event-container-title">Notificar a tu equipo</h4>
+         <ion-item >
+          <ion-label >Seleccionar usuarios</ion-label>
+          <ionic-selectable
+            [(ngModel)]="selectedUsers"
+            [items]="users"
+            itemValueField="id"
+            itemTextField="fullName"
+            [canSearch]="true"
+            [isMultiple]="true"
+            [searchFailText]="'No hay usuarios que cumplan el parametro.'"
+            closeButtonText="Cerrar"
+            [disabled] = "CargandoUsuarios"
+            (onChange)="userChange($event)">
+          </ionic-selectable>
+        </ion-item>
+
+
         <div class="button-container">
           <button class="regular-button" (click)="addEvent()" >Confirmar</button>
         </div>
