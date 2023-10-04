@@ -10,6 +10,10 @@ ion-label{
     letter-spacing: 0.3px;
 }
 
+ion-item {
+    --border-color: #e4e4e4;
+  }
+
 .main-container{
 
 }
@@ -19,9 +23,16 @@ ion-label{
 
 
 
-
+.event-container-description{
+    font-size: 1rem;
+    margin:0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+  
+}
 .event-container-title{
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     margin:0;
     padding-top: 0.5rem;
     padding-left: 1rem;

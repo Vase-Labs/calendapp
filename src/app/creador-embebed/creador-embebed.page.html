@@ -81,11 +81,12 @@
 
         <section *ngIf="evento.causa != [] && evento.tipo == 'Atención'">
             <ion-item >
-              <ion-label>Tercero?</ion-label>
+              <ion-label>Es un tercero?</ion-label>
               <ion-checkbox [(ngModel)]="evento.tercero"></ion-checkbox>
             </ion-item>
-            <ion-item *ngIf="!evento.tercero">
-              <ion-select cancelText="Cancelar" okText="Aceptar!" [(ngModel)]="evento.cliente" (ionChange)="seleccionarCliente()">
+            <ion-item *ngIf="!evento.tercero" [disabled]="isCausaSelected()">
+              <ion-label>Cliente de la causa</ion-label>
+              <ion-select cancelText="Cancelar" okText="Aceptar" [(ngModel)]="evento.cliente" (ionChange)="seleccionarCliente()">
                 <ion-select-option value="{{i}}" *ngFor="let cliente of clientes;index as i">{{cliente.name}}</ion-select-option>
               </ion-select>
             </ion-item>
@@ -145,6 +146,9 @@
             </ion-item>
         </section>
 
+       
+        
+
         <ion-item>
           <ion-label>Fecha de inicio</ion-label>
           <ion-datetime displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD:MM:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
@@ -158,22 +162,45 @@
           <ion-textarea type="text" placeholder="Observación" [(ngModel)]="evento.observacion"></ion-textarea>
         </ion-item>
 
-        <h4 class="event-container-title">Notificar a tu equipo</h4>
-         <ion-item >
-          <ion-label >Seleccionar usuarios</ion-label>
-          <ionic-selectable
-            [(ngModel)]="selectedUsers"
-            [items]="users"
-            itemValueField="id"
-            itemTextField="fullName"
-            [canSearch]="true"
-            [isMultiple]="true"
-            [searchFailText]="'No hay usuarios que cumplan el parametro.'"
-            closeButtonText="Cerrar"
-            [disabled] = "CargandoUsuarios"
-            (onChange)="userChange($event)">
-          </ionic-selectable>
-        </ion-item>
+        <div class="event-container" style="border-left: 3px solid #2dd36f;">
+          <h4 class="event-container-title">Serás notificado </h4>
+          <div style="display: flex; flex-direction: row;">
+            <ion-item>
+              <ion-label position="floating">Dias</ion-label>
+              <ion-input type="number"  [(ngModel)]="notificationDay"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Horas</ion-label>
+              <ion-input type="number"  [(ngModel)]="notificationHours"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Minutos</ion-label>
+              <ion-input type="number"  [(ngModel)]="notificationMinutes"></ion-input>
+            </ion-item>
+          </div>
+          <p class="event-container-description">antes de la fecha de inicio del evento</p>
+        </div>
+
+        <div class="event-container " style="border-left: 3px solid #2dd36f;">
+          <h4 class="event-container-title">Notificar a tu equipo via email</h4>
+          <ion-item>
+           <ion-label>Seleccionar usuarios</ion-label>
+           <ionic-selectable
+             [(ngModel)]="selectedUsers"
+             [items]="users"
+             itemValueField="id"
+             itemTextField="fullName"
+             [canSearch]="true"
+             [isMultiple]="true"
+             [searchFailText]="'No hay usuarios que cumplan el parametro.'"
+             closeButtonText="Cerrar"
+             [disabled] = "CargandoUsuarios"
+             (onChange)="userChange($event)">
+           </ionic-selectable>
+         </ion-item>
+        </div>
+        
+        
 
 
         <div class="button-container">
