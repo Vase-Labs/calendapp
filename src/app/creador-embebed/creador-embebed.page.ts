@@ -49,6 +49,10 @@ export class CreadorEmbebedPage implements OnInit {
   selectedUsers = [];
   cargandoCausas = false;
 
+  notificationDays : number = 0;
+  notificationHours : number = 0;
+  notificationMinutes : number = 0;
+
 
   modalType:string;
   modalData;
@@ -164,10 +168,21 @@ export class CreadorEmbebedPage implements OnInit {
       default:
         break;
     }*/
+
+    //Calculate time previous to be notificated.
+    const notificationTime = new Date(this.event.startTime);
+    if( this.notificationDays || this.notificationHours || this.notificationMinutes){
+      notificationTime.setDate( notificationTime.getDate() - this.notificationDays)
+      notificationTime.setHours( notificationTime.getHours() - this.notificationHours)
+      notificationTime.setMinutes( notificationTime.getMinutes() - this.notificationMinutes)
+    }
+  
+
     let eventCopy = {
       title: titulo,
       startTime:  new Date(this.event.startTime),
       endTime: new Date(this.event.endTime),
+      notificationTime: notificationTime,
       allDay: this.event.allDay,
       enterprise : this.enterprise,
       eventType : this.evento.tipo,
@@ -197,6 +212,7 @@ export class CreadorEmbebedPage implements OnInit {
   }
 
   seleccionarCliente(){
+    console.log(this.clientes)
     this.evento['nombreAtencion'] = this.clientes[this.evento.cliente].Nombre;
     this.evento['telefonoAtencion'] = this.clientes[this.evento.cliente].Telefono;
   }
@@ -214,6 +230,11 @@ export class CreadorEmbebedPage implements OnInit {
       }
     }
    
+  }
+
+  isCausaSelected(){
+    if(this.evento.causa.length > 0) {return false}
+    return true; 
   }
 
   userChange(event){
