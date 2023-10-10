@@ -43,8 +43,11 @@ export class CreadorEmbebedPage implements OnInit {
 
   clientes = [];
   causas = [];
+  
   enterprise : string ;
   token : string;
+  user : string;
+
   users = [];
   selectedUsers = [];
   cargandoCausas = false;
@@ -68,9 +71,10 @@ export class CreadorEmbebedPage implements OnInit {
     @Inject(LOCALE_ID) private locale: string) {
     router.queryParams.subscribe(parameter => {
       console.log(parameter)
-      const {token,enterprise} = parameter;
+      const {token,enterprise,user} = parameter;
       this.enterprise = enterprise;
       this.token = token;
+      this.user = user;
       this.getAreas(token,enterprise);
     })
   }
@@ -187,7 +191,9 @@ export class CreadorEmbebedPage implements OnInit {
       enterprise : this.enterprise,
       eventType : this.evento.tipo,
       eventData: this.evento,
-      mailedUsers: this.selectedUsers
+      mailedUsers: this.selectedUsers,
+      users: this.selectedUsers,
+      user: this.users.find( user => user.id === this.user)
     }
 
     if (eventCopy.allDay) {
